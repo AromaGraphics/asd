@@ -1,1 +1,359 @@
-<!DOCTYPE html> <html lang="en-us"> <head> <meta charset="utf-8"> <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <title>Holder</title> <link rel="shortcut icon" href="TemplateData/favicon.ico"> <link rel="stylesheet" href="TemplateData/style.css"> </head> <body> <div class="Loading" > <div class="Loading" id="Loadd"> <div class="loader"> </div> <h1 class="load" id="load_data">Loading</h1> <p class="alert"> This occur only 1 time next time it won't thake that much time.</p> </div> </div> <div id="unity-container" style="width: 100%; height: 100%;"> <canvas id="unity-canvas" width=auto height=auto></canvas> <div id="unity-loading-bar"> <div id="unity-logo"></div> <div id="unity-progress-bar-empty"> <div id="unity-progress-bar-full"></div> </div> </div> </div> <script> var container = document.querySelector("#unity-container"); var canvas = document.querySelector("#unity-canvas"); var loadingBar = document.querySelector("#unity-loading-bar"); var progressBarFull = document.querySelector("#unity-progress-bar-full"); var fullscreenButton = document.querySelector("#unity-fullscreen-button"); var warningBanner = document.querySelector("#unity-warning"); var Loading_Menue= document.querySelector("#Loading"); function unityShowBanner(msg, type) {function updateBannerVisibility() {warningBanner.style.display = warningBanner.children.length ? 'block' : 'none'; }var div = document.createElement('div');div.innerHTML = msg;warningBanner.appendChild(div);if (type == 'error') div.style = 'background: red; padding: 10px;';else {if (type == 'warning') div.style = 'background: yellow; padding: 10px;';setTimeout(function() {warningBanner.removeChild(div);updateBannerVisibility();}, 5000);}updateBannerVisibility();}var buildUrl = "Build";var loaderUrl = buildUrl + "/Do.loader.js";var config = {dataUrl: buildUrl + "/Do.data.unityweb",frameworkUrl: buildUrl + "/Do.framework.js.unityweb",codeUrl: buildUrl + "/Do.wasm.unityweb",streamingAssetsUrl: "StreamingAssets",companyName: "DefaultCompany",productName: "Download Website Youtube",productVersion: "1.0",showBanner: unityShowBanner,};if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {container.className = "unity-mobile";config.devicePixelRatio = 1;unityShowBanner('WebGL builds are not supported on mobile devices.');} else {canvas.style.width = "100%";canvas.style.height = "100%";}loadingBar.style.display = "block";var script = document.createElement("script");script.src = loaderUrl;script.onload = () => {createUnityInstance(canvas, config, (progress) => {document.getElementById("load_data").innerText = "Loading...... " + Math.trunc(progress * 100) + " %";if (progress== 1){setTimeout(function() {Loading_Menue.remove();}, 5000);}}).then((unityInstance) => {loadingBar.style.display = "none";unityInstance.SendMessage('Enter', 'Change_Search_2', 'https://raw.githubusercontent.com/AromaGraphics/tester/main/Files.txt');unityInstance.SendMessage('Enter', 'Change_Search', 'https://www.bing.com/news');}).catch((message) => {alert(message);});};document.body.appendChild(script);</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Buttons Generator</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .input-container {
+            margin-bottom: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .file-upload-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Hide the default file input */
+        input[type="file"] {
+            display: none;
+        }
+
+        /* Custom styled file upload button (PNG style) */
+        .file-upload-btn {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a6/PNG_logo.svg'); /* Example PNG */
+            background-size: cover;
+            width: 150px;
+            height: 50px;
+            border: 2px solid #444;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            display: inline-block;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .file-upload-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .file-upload-btn span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .generate-button {
+            background-color: #1a73e8;
+            font-weight: bold;
+            margin: 50px;
+        }
+
+        .generate-button:hover {
+            background-color: #1558a4;
+        }
+
+        button {
+            background-color: #333;
+            color: #fff;
+            border: 2px solid #444;
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #555;
+            transform: scale(1.1);
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            margin: 5px;
+        }
+
+        .download-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .download-button {
+            background-color: #ffffff;  /* Soft red */
+            font-weight: bold;
+            color: #000000;
+        }
+
+        .download-button:hover {
+            background-color: #18ce45;  /* Darker red */
+        }
+
+        .download-green-button {
+            background-color: #ffffff; /* Green color for download button */
+            font-weight: bold;
+            color: #000000;
+        }
+
+        .download-green-button:hover {
+            background-color: #18ce45; /* Darker green on hover */
+        }
+
+        .download-green-blue-button {
+            background-color: #fd2701ea; /* Yellow color for the new download button */
+            font-weight: bold;
+            color: #000000;
+        }
+
+        .download-green-blue-button:hover {
+            background-color: #18ce45; /* Darker yellow on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div class="input-container">
+    <label for="fileInputReplace" style="font-size: 18px; margin-bottom: 50px; display: block;">Project : 105</label>
+    <div class="file-upload-container">
+        <!-- Conditional Upload Buttons -->
+        <label for="fileInputReplace" class="file-upload-btn" id="replaceFileLabel" style="display: none;">
+            <span></span>
+        </label>
+        <!-- <input type="file" id="fileInputReplace" accept=".txt" onchange="handleReplacementFileUpload(event)" style="display: none;"> -->
+        
+        <label for="fileInput" class="file-upload-btn" id="contentFileLabel">
+            <span>Upload</span>
+        </label>
+        <input type="file" id="fileInput" accept=".txt" onchange="handleFileUpload(event)">
+    </div>
+    
+    <!-- <button class="generate-button" onclick="generateButtons()">Start</button> -->
+    <br>
+</div>
+
+<div class="button-container" id="buttonsContainer">
+    <!-- Buttons will be generated here -->
+</div>
+
+<div class="download-container">
+    <button class="download-button" onclick="downloadData()">Export Content</button>
+    <button class="download-green-button" onclick="downloadGreenData()">Export Images</button>
+    <button class="download-green-blue-button" onclick="downloadGreenAndBlueData()">Export Time</button>
+</div>
+
+<script>
+    let fileContent = '';
+    let replacementFileContent = '';
+    let buttonsGenerated = false;
+
+    // Handles the content file upload
+    function handleFileUpload(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            fileContent = e.target.result;
+            buttonsGenerated = false; // Reset the status
+            generateButtons(); // Generate buttons when content is uploaded
+        };
+
+        if (file) {
+            reader.readAsText(file);
+        }
+    }
+
+    // Handles the replacement file upload
+    function handleReplacementFileUpload(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            replacementFileContent = e.target.result;
+            replaceButtonTexts();  // Replace button texts when the replacement file is uploaded
+        };
+
+        if (file) {
+            reader.readAsText(file);
+        }
+    }
+
+    // Generates buttons from the content file
+    function generateButtons() {
+        if (!fileContent) {
+            alert('Please upload a content text file first!');
+            return;
+        }
+
+        const words = fileContent.split(/\s*[\n\r]+\s*/); // Split by newlines or spaces
+        const buttonsContainer = document.getElementById('buttonsContainer');
+        
+        buttonsContainer.innerHTML = ''; // Clear any previous buttons
+
+        words.forEach(word => {
+            if (word.trim()) {
+                const button = document.createElement('button');
+                button.textContent = word;
+                button.onclick = function() {
+                    toggleButtonColor(button);
+                };
+                buttonsContainer.appendChild(button);
+            }
+        });
+
+        // Update the upload buttons visibility based on whether buttons are generated
+        buttonsGenerated = true;
+        toggleFileUploadButtons();
+    }
+
+    // Toggle the background color between green, blue, and default
+    function toggleButtonColor(button) {
+        if (button.style.backgroundColor === 'green') {
+            button.style.backgroundColor = 'blue';
+        } else if (button.style.backgroundColor === 'blue') {
+            button.style.backgroundColor = '#333'; // Reset to normal state
+        } else {
+            button.style.backgroundColor = 'green';
+        }
+    }
+
+    // Replace button texts with the replacement file content
+    function replaceButtonTexts() {
+        if (!replacementFileContent) {
+            alert('Please upload the replacement text file first!');
+            return;
+        }
+
+        const replacementWords = replacementFileContent.split(/\s*[\n\r]+\s*/);
+        const buttons = document.querySelectorAll('#buttonsContainer button');
+
+        // Ensure the replacement file has the same number of lines as the buttons
+        if (replacementWords.length !== buttons.length) {
+            alert('The replacement file must have the same number of lines as the original file!');
+            return;
+        }
+
+        buttons.forEach((button, index) => {
+            if (replacementWords[index].trim()) {
+                button.textContent = replacementWords[index].trim(); // Replace text
+            }
+        });
+    }
+
+    // Show or hide the upload buttons based on whether buttons have been generated
+    function toggleFileUploadButtons() {
+        if (buttonsGenerated) {
+            // If buttons are generated, show the replacement file upload button
+            document.getElementById('replaceFileLabel').style.display = 'block';
+            document.getElementById('fileInputReplace').style.display = 'block';
+            document.getElementById('contentFileLabel').style.display = 'none';
+            document.getElementById('fileInput').style.display = 'none';
+        } else {
+            // If no buttons are generated, show the content file upload button
+            document.getElementById('replaceFileLabel').style.display = 'none';
+            document.getElementById('fileInputReplace').style.display = 'none';
+            document.getElementById('contentFileLabel').style.display = 'block';
+            document.getElementById('fileInput').style.display = 'block';
+        }
+    }
+
+    // Downloads all button data
+    function downloadData() {
+        const buttons = document.querySelectorAll('#buttonsContainer button');
+        let textToDownload = '';
+        
+        buttons.forEach(button => {
+            if (button.style.backgroundColor === 'green') {
+                textToDownload += '/\n'; // Replace with '/'
+            } else if (button.style.backgroundColor === 'blue') {
+                textToDownload += button.textContent + '\n'; // Keep text as it is
+            }
+        });
+
+        if (textToDownload) {
+            const blob = new Blob([textToDownload], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'Data.txt';
+            link.click();
+        } else {
+            alert('No buttons to download.');
+        }
+    }
+
+    // Downloads green button data
+    function downloadGreenData() {
+        const buttons = document.querySelectorAll('#buttonsContainer button');
+        let greenText = '';
+
+        buttons.forEach(button => {
+            if (button.style.backgroundColor === 'green') {
+                greenText += button.textContent + '\n'; // Only add green button text
+            }
+        });
+
+        if (greenText) {
+            const blob = new Blob([greenText], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'GreenData.txt'; 
+            link.click();
+        } else {
+            alert('No green buttons to download.');
+        }
+    }
+
+    // Downloads both green and blue button data
+    function downloadGreenAndBlueData() {
+        const buttons = document.querySelectorAll('#buttonsContainer button');
+        let greenAndBlueText = '';
+
+        buttons.forEach(button => {
+            if (button.style.backgroundColor === 'green' || button.style.backgroundColor === 'blue') {
+                greenAndBlueText += button.textContent + '\n'; // Add green and blue button text
+            }
+        });
+
+        if (greenAndBlueText) {
+            const blob = new Blob([greenAndBlueText], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'GreenAndBlueData.txt'; 
+            link.click();
+        } else {
+            alert('No green or blue buttons to download.');
+        }
+    }
+</script>
+
+</body>
+</html>
+
+
+
